@@ -189,6 +189,8 @@ public class MainForm {
         JButton btnDepatment = new JButton("Департаменты");
         btnDepatment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                DepartmentForm frame = new DepartmentForm();
+                frame.setVisible(true);
             }
         });
         panelBottom.add(btnDepatment);
