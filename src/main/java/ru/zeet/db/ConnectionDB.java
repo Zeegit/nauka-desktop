@@ -1,4 +1,4 @@
-package ru.zeet;
+package ru.zeet.db;
 
 import java.sql.*;
 

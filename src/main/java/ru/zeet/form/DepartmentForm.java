@@ -1,9 +1,9 @@
-package ru.zeet;
+package ru.zeet.form;
 
-import ru.zeet.Dialog.MyJFrame;
+import ru.zeet.db.ConnectionDB;
+import ru.zeet.model.DepartmentTableModel;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

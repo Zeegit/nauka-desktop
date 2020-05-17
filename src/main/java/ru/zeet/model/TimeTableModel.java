@@ -1,4 +1,6 @@
-package ru.zeet;
+package ru.zeet.model;
+
+import ru.zeet.db.ConnectionDB;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
@@ -31,7 +33,8 @@ public class TimeTableModel extends AbstractTableModel {
             "where \n" +
             "\t\te.department_id = ?\n" +
             "\tand extract(month from w.work_date) = ?\n" +
-            "\tand extract(year from w.work_date) = ?";
+            "\tand extract(year from w.work_date) = ? " +
+            "order by e.first_name";
 
 
     public TimeTableModel() {

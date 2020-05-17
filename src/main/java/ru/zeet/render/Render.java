@@ -1,4 +1,4 @@
-package ru.zeet;
+package ru.zeet.render;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

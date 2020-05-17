@@ -1,9 +1,9 @@
-package ru.zeet.Dialog;
+package ru.zeet.form;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MyJFrame extends JFrame {
+public class MyJFrame extends JDialog {
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private int sizeWidth;
     private int sizeHeight;

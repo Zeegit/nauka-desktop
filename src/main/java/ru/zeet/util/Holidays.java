@@ -1,11 +1,11 @@
-package ru.zeet;
+package ru.zeet.util;
+
+import ru.zeet.db.ConnectionDB;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Holidays {
     private String sql = "select hdate, holiday_type_id from holiday where extract(month from hdate) = ? and extract(year from hdate) = ?";

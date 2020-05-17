@@ -1,4 +1,4 @@
-package ru.zeet.Dialog;
+package ru.zeet.form;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

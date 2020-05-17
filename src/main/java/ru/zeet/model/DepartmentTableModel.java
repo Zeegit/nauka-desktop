@@ -1,4 +1,6 @@
-package ru.zeet;
+package ru.zeet.model;
+
+import ru.zeet.db.ConnectionDB;
 
 import javax.swing.table.AbstractTableModel;
 import java.sql.ResultSet;
@@ -56,7 +58,7 @@ public class DepartmentTableModel extends AbstractTableModel {
     }
 
     public void addData(ConnectionDB conn) {
-        ResultSet rs = conn.resultSetQuery("SELECT id, name FROM department");
+        ResultSet rs = conn.resultSetQuery("SELECT id, name FROM department ORDER BY id");
 
         try {
             while (rs.next()) {

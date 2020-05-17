@@ -1,10 +1,17 @@
 package ru.zeet;
 
 
+import ru.zeet.db.ConnectionDB;
+import ru.zeet.form.DepartmentForm;
+import ru.zeet.model.DepartmentTableModel;
+import ru.zeet.model.TimeTableModel;
+import ru.zeet.render.Render;
+import ru.zeet.util.Holidays;
+import ru.zeet.util.Util;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,15 +24,13 @@ import java.util.Properties;
 
 public class MainForm {
     private final String[] months = new String[]{"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-    JSpinner spinner;
-    private String iniFileName = "database.ini";
-
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int sizeWidth = 1200;
     private final int sizeHeight = 600;
     private final int locationX = (screenSize.width - sizeWidth) / 2;
     private final int locationY = (screenSize.height - sizeHeight) / 2;
-
+    JSpinner spinner;
+    private String iniFileName = "database.ini";
     //ArrayList<Department> departments = new ArrayList<>();
     private ConnectionDB connect;
     private JFrame frame;
@@ -83,8 +88,8 @@ public class MainForm {
 
         frame.getContentPane().add(createTopPanel(), BorderLayout.NORTH);
         frame.getContentPane().add(createBottomPanel(), BorderLayout.SOUTH);
-        frame.getContentPane().add(createLeftPanel(), BorderLayout.WEST);
         frame.getContentPane().add(createMainPanel(), BorderLayout.CENTER);
+        frame.getContentPane().add(createLeftPanel(), BorderLayout.WEST);
 
         tableDepartments.setRowSelectionInterval(0, 0);
     }
@@ -94,16 +99,11 @@ public class MainForm {
         panelMain.setSize(new Dimension(200, 200));
         panelMain.setLayout(new BorderLayout());
 
-
         tableTimeTable = new JTable();
 
         JScrollPane mainScrollPane = new JScrollPane(tableTimeTable);
         mainScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         mainScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-
-        //refreshTimeTable();
-
 
         panelMain.add(mainScrollPane, BorderLayout.CENTER);
         return panelMain;
@@ -138,6 +138,22 @@ public class MainForm {
         }
     }
 
+    private void refreshDepartmentTable() {
+        DepartmentTableModel dtm = new DepartmentTableModel();
+        dtm.addData(connect);
+
+        tableDepartments.setModel(dtm);
+
+        tableDepartments.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableDepartments.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tableDepartments.getColumnModel().getColumn(1).setPreferredWidth(170);
+
+        tableDepartments.repaint();
+        if (tableDepartments.getRowCount() > 0) {
+            tableDepartments.setRowSelectionInterval(0, 0);
+        }
+    }
+
     private JPanel createLeftPanel() {
         JPanel panelLeft = new JPanel();
         panelLeft.setPreferredSize(new Dimension(200, 100));
@@ -147,39 +163,19 @@ public class MainForm {
         tableDepartments = new JTable(dtm);
 
         JScrollPane depScrollPane = new JScrollPane(tableDepartments);
-        //depScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        //depScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        dtm.addData(connect);
-
-        tableDepartments.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        tableDepartments.getColumnModel().getColumn(0).setPreferredWidth(20);
-        tableDepartments.getColumnModel().getColumn(1).setPreferredWidth(170);
-
-
         panelLeft.add(depScrollPane, BorderLayout.CENTER);
-        //panelLeft.add(tableDepartments, BorderLayout.CENTER);
-
 
         ListSelectionModel selModel = tableDepartments.getSelectionModel();
         selModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                String result = "";
-                int[] selectedRows = tableDepartments.getSelectedRows();
-                for (int i = 0; i < selectedRows.length; i++) {
-                    int selIndex = selectedRows[i];
-                    TableModel model = tableDepartments.getModel();
-                    Object value = model.getValueAt(selIndex, 0);
-                    result = "" + value;
-                    break;
-                    //result = result + value;
-                    //if(i != selectedRows.length - 1) { result += ", "; }
+                String recNo = Util.getCurrentRecord(tableDepartments, 0);
+                if (recNo != null) {
+                    dep_id = Integer.parseInt(recNo);
+                    refreshTimeTable(dep_id, comboBox.getSelectedIndex() + 1, Integer.parseInt("" + spinner.getValue()));
                 }
-                dep_id = Integer.parseInt(result);
-                refreshTimeTable(dep_id, comboBox.getSelectedIndex() + 1, Integer.parseInt("" + spinner.getValue()));
             }
         });
-
+        refreshDepartmentTable();
 
         return panelLeft;
     }
@@ -195,7 +191,12 @@ public class MainForm {
         btnDepatment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DepartmentForm frame = new DepartmentForm(connect);
+                frame.setModal(true);
                 frame.setVisible(true);
+                refreshDepartmentTable();
+                frame.setVisible(false);
+                frame.dispose();
+
             }
         });
         panelBottom.add(btnDepatment);

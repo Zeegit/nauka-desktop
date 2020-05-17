@@ -1,17 +1,12 @@
-package ru.zeet;
-
-import ru.zeet.Dialog.MyDialog;
+package ru.zeet.form;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class DeparntamentEdit extends MyDialog {
+public class TimeEdit extends MyDialog {
     private JTextField textField;
 
-    public DeparntamentEdit(String title) {
+    public TimeEdit(String title) {
         setCenter(350, 250);
 
         JPanel panel_1 = new JPanel();
