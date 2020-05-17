@@ -20,6 +20,11 @@ public class MainForm {
     JSpinner spinner;
     private String iniFileName = "database.ini";
 
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int sizeWidth = 1200;
+    private final int sizeHeight = 600;
+    private final int locationX = (screenSize.width - sizeWidth) / 2;
+    private final int locationY = (screenSize.height - sizeHeight) / 2;
 
     //ArrayList<Department> departments = new ArrayList<>();
     private ConnectionDB connect;
@@ -68,7 +73,7 @@ public class MainForm {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 800, 500);
+        frame.setBounds(locationX, locationY, sizeWidth, sizeHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
 
@@ -189,7 +194,7 @@ public class MainForm {
         JButton btnDepatment = new JButton("Департаменты");
         btnDepatment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DepartmentForm frame = new DepartmentForm();
+                DepartmentForm frame = new DepartmentForm(connect);
                 frame.setVisible(true);
             }
         });

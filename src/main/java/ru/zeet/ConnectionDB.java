@@ -61,4 +61,28 @@ public class ConnectionDB {
         }
         return null;
     }
+
+    public void executeUpdate(String sql, String... params) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                statement.setString(i + 1, params[i]);
+            }
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void executeUpdate(String sql) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }
