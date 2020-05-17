@@ -1,4 +1,4 @@
-package ru.zeet.form;
+package ru.zeet.form.base;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,7 +22,7 @@ public class MyDialog extends JDialog {
         getContentPane().setLayout(new BorderLayout());
         contentPanel = new JPanel();
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPanel.setLayout(new GridLayout(2, 1, 0, 0));
+        contentPanel.setLayout(new GridLayout(6, 1, 0, 0));
 
         getContentPane().add(contentPanel, BorderLayout.NORTH);
         getContentPane().add(createButtonPanel(), BorderLayout.SOUTH);
@@ -42,6 +42,7 @@ public class MyDialog extends JDialog {
     }
 
     public int showDialog(boolean modal) {
+        result = JOptionPane.CLOSED_OPTION;
         setModal(modal);
         setVisible(true);
         return result;
@@ -78,7 +79,6 @@ public class MyDialog extends JDialog {
             JButton okButton = new JButton("OK");
             okButton.setActionCommand("OK");
             buttonPane.add(okButton);
-            getRootPane().setDefaultButton(okButton);
 
             okButton.addActionListener(new OkActionListener());
         }
@@ -86,6 +86,7 @@ public class MyDialog extends JDialog {
             JButton cancelButton = new JButton("Cancel");
             cancelButton.setActionCommand("Cancel");
             buttonPane.add(cancelButton);
+            getRootPane().setDefaultButton(cancelButton);
 
             cancelButton.addActionListener(new CalcelActionListener());
         }

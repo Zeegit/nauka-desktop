@@ -19,7 +19,6 @@ public class Render extends DefaultTableCellRenderer {
 
     int[] days;
 
-
     public Render(int[] days) {
         this.days = days;
     }

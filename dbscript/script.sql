@@ -109,7 +109,9 @@ CREATE TABLE public.work_calendar
         REFERENCES public.employee (id),
 
     CONSTRAINT fk_work_calendar_work_code FOREIGN KEY (work_code_id)
-        REFERENCES public.work_code (id)
+        REFERENCES public.work_code (id),
+		
+	CONSTRAINT uq_work_calendar UNIQUE (work_date, employee_id, work_code_id)
 
 );
 

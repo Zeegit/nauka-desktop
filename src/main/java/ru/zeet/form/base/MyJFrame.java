@@ -1,4 +1,4 @@
-package ru.zeet.form;
+package ru.zeet.form.base;
 
 import javax.swing.*;
 import java.awt.*;

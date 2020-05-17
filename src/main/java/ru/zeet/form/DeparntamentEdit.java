@@ -1,5 +1,7 @@
 package ru.zeet.form;
 
+import ru.zeet.form.base.MyDialog;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class DeparntamentEdit extends MyDialog {
     private JTextField textField;
 
     public DeparntamentEdit(String title) {
-        setCenter(350, 250);
+        setCenter(450, 300);
 
         JPanel panel_1 = new JPanel();
         panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));

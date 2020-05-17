@@ -3,6 +3,8 @@ package ru.zeet;
 
 import ru.zeet.db.ConnectionDB;
 import ru.zeet.form.DepartmentForm;
+import ru.zeet.form.EmployeeForm;
+import ru.zeet.form.TimeForm;
 import ru.zeet.model.DepartmentTableModel;
 import ru.zeet.model.TimeTableModel;
 import ru.zeet.render.Render;
@@ -185,6 +187,19 @@ public class MainForm {
         panelBottom.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
         JButton btnTimeTable = new JButton("Табель");
+        btnTimeTable.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                TimeForm frame = new TimeForm(connect);
+                frame.setModal(true);
+                frame.setVisible(true);
+
+                refreshTimeTable(dep_id, comboBox.getSelectedIndex() + 1, Integer.parseInt("" + spinner.getValue()));
+
+                frame.setVisible(false);
+                frame.dispose();
+
+            }
+        });
         panelBottom.add(btnTimeTable);
 
         JButton btnDepatment = new JButton("Департаменты");
@@ -202,6 +217,19 @@ public class MainForm {
         panelBottom.add(btnDepatment);
 
         JButton btnEmployee = new JButton("Сотрудники");
+        btnEmployee.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                EmployeeForm frame = new EmployeeForm(connect);
+                frame.setModal(true);
+                frame.setVisible(true);
+
+                refreshTimeTable(dep_id, comboBox.getSelectedIndex() + 1, Integer.parseInt("" + spinner.getValue()));
+
+                frame.setVisible(false);
+                frame.dispose();
+
+            }
+        });
         panelBottom.add(btnEmployee);
 
         return panelBottom;

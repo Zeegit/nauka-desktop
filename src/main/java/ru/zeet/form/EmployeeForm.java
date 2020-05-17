@@ -2,39 +2,22 @@ package ru.zeet.form;
 
 import ru.zeet.db.ConnectionDB;
 import ru.zeet.form.base.MyJFrame;
-import ru.zeet.model.DepartmentTableModel;
+import ru.zeet.model.TimeModel;
+import ru.zeet.util.Util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepartmentForm extends MyJFrame {
+public class EmployeeForm extends MyJFrame {
 
     private JPanel contentPane;
     private JTable table;
     private ConnectionDB connect;
 
-    /**
-     * Launch the application.
-     */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DepartmentForm frame = new DepartmentForm();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}*/
 
-    /**
-     * Create the frame.
-     */
-    public DepartmentForm(ConnectionDB connect) {
+    public EmployeeForm(ConnectionDB connect) {
         this.connect = connect;
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setCenter(450, 300);
@@ -47,7 +30,7 @@ public class DepartmentForm extends MyJFrame {
         contentPane.add(panelTop, BorderLayout.NORTH);
         panelTop.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-        JLabel lblNewLabel = new JLabel("Список департаментов");
+        JLabel lblNewLabel = new JLabel("Список сотрудников");
         panelTop.add(lblNewLabel);
 
         JPanel panelBottom = new JPanel();
@@ -80,17 +63,16 @@ public class DepartmentForm extends MyJFrame {
         panelBottom.add(btnDelete);
 
         contentPane.add(createMainPanel(), BorderLayout.CENTER);
-
     }
 
     private void editRecord() {
-        String recId = getCurrentRecord(0);
-        String name = getCurrentRecord(1);
+        String recId = Util.getCurrentRecord(table,0);
+        String name = Util.getCurrentRecord(table,1);
 
-        DeparntamentEdit dialog = new DeparntamentEdit("Изменение департамента");
-        dialog.setText(name);
+        TimeEdit dialog = new TimeEdit("Изменение записи", null, null);
+        //dialog.setText(name);
         int result = dialog.showDialog(true);
-        String text = dialog.getText();
+        String text = ""; //dialog.getText();
 
         if (result == JOptionPane.OK_OPTION) {
             if (text == null || "".equals(text)) {
@@ -104,9 +86,9 @@ public class DepartmentForm extends MyJFrame {
     }
 
     private void addRecord() {
-        DeparntamentEdit dialog = new DeparntamentEdit("Добавление департамента");
+        TimeEdit dialog = new TimeEdit("Добавление записи", null, null);
         int result = dialog.showDialog(true);
-        String text = dialog.getText();
+        String text = ""; //dialog.getText();
 
         if (result == JOptionPane.OK_OPTION) {
             if (text == null || "".equals(text)) {
@@ -120,35 +102,35 @@ public class DepartmentForm extends MyJFrame {
     }
 
     private void deleteRecord() {
-        String recId = getCurrentRecord(0);
-        String name = getCurrentRecord(1);
+        String recId = Util.getCurrentRecord(table, 0);
+        String name = Util.getCurrentRecord(table,1);
 
         if (recId != null) {
-            int result = JOptionPane.showConfirmDialog(this, "Удалить запись '" + name + "'?", "Удалить", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(this, "Удалить запись ?", "Удалить", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
-                String sql = "delete from department where id = " + recId;
+                String sql = "delete from work_calendar where id = " + recId;
                 connect.executeUpdate(sql);
             }
         }
         refreshTimeTable();
     }
 
-    private String getCurrentRecord(int columnIndex) {
+/*    private String getCurrentRecord(int columnIndex) {
         String result = null;
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length > 0) {
             result = String.valueOf(table.getModel().getValueAt(selectedRows[0], columnIndex));
         }
         return result;
-    }
+    }*/
 
     private JPanel createMainPanel() {
         JPanel panelMain = new JPanel();
         panelMain.setLayout(new BorderLayout());
 
-        DepartmentTableModel dtm = new DepartmentTableModel();
+        TimeModel model = new TimeModel();
 
-        table = new JTable(dtm);
+        table = new JTable(model);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -161,9 +143,16 @@ public class DepartmentForm extends MyJFrame {
     }
 
     private void refreshTimeTable() {
-        DepartmentTableModel ttm = new DepartmentTableModel();
+        TimeModel ttm = new TimeModel();
         ttm.addData(connect);
         table.setModel(ttm);
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(0).setPreferredWidth(120);
+        table.getColumnModel().getColumn(1).setPreferredWidth(120);
+        table.getColumnModel().getColumn(2).setPreferredWidth(120);
+        table.getColumnModel().getColumn(3).setPreferredWidth(120);
+
         table.repaint();
         if (table.getRowCount() > 0) {
             table.setRowSelectionInterval(0, 0);
