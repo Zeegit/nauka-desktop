@@ -109,12 +109,8 @@ public class DepartmentForm extends MyJFrame {
         String text = dialog.getText();
 
         if (result == JOptionPane.OK_OPTION) {
-            if (text == null || "".equals(text)) {
-                JOptionPane.showMessageDialog(this, "Пустое имя", "Инфо", JOptionPane.OK_OPTION);
-            } else {
-                String sql = "insert into department (name) values (?)";
-                connect.executeUpdate(sql, text);
-            }
+            String sql = "insert into department (name) values (?)";
+            connect.executeUpdate(sql, text);
         }
         refreshTimeTable();
     }

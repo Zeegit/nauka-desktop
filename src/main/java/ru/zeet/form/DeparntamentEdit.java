@@ -9,7 +9,7 @@ public class DeparntamentEdit extends MyDialog {
     private JTextField textField;
 
     public DeparntamentEdit(String title) {
-        setCenter(450, 300);
+        setCenter(450, 450);
 
         JPanel panel_1 = new JPanel();
         panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
@@ -36,5 +36,15 @@ public class DeparntamentEdit extends MyDialog {
 
     public void setText(String name) {
         textField.setText(name);
+    }
+
+    @Override
+    public int checkInput() {
+        if (getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Пустое название", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            textField.requestFocusInWindow();
+            return -1;
+        }
+        return 0;
     }
 }

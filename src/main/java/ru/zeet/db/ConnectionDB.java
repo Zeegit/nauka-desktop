@@ -1,5 +1,6 @@
 package ru.zeet.db;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class ConnectionDB {
@@ -82,7 +83,10 @@ public class ConnectionDB {
             statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Инфо", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 }
+
+

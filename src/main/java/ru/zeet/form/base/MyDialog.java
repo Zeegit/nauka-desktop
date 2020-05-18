@@ -22,7 +22,7 @@ public class MyDialog extends JDialog {
         getContentPane().setLayout(new BorderLayout());
         contentPanel = new JPanel();
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-        contentPanel.setLayout(new GridLayout(6, 1, 0, 0));
+        contentPanel.setLayout(new GridLayout(10, 1, 0, 0));
 
         getContentPane().add(contentPanel, BorderLayout.NORTH);
         getContentPane().add(createButtonPanel(), BorderLayout.SOUTH);
@@ -56,22 +56,6 @@ public class MyDialog extends JDialog {
         this.result = result;
     }
 
-    public class OkActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            result = JOptionPane.OK_OPTION;
-            setVisible(false);
-            dispose();
-        }
-    }
-
-    public class CalcelActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            result = JOptionPane.CANCEL_OPTION;
-            setVisible(false);
-            dispose();
-        }
-    }
-
     public JPanel createButtonPanel() {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -91,6 +75,28 @@ public class MyDialog extends JDialog {
             cancelButton.addActionListener(new CalcelActionListener());
         }
         return buttonPane;
+    }
+
+    public class OkActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (checkInput() == 0) {
+                result = JOptionPane.OK_OPTION;
+                setVisible(false);
+                dispose();
+            }
+        }
+    }
+
+    public int checkInput() {
+        return 0;
+    }
+
+    public class CalcelActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            result = JOptionPane.CANCEL_OPTION;
+            setVisible(false);
+            dispose();
+        }
     }
 
 

@@ -21,7 +21,7 @@ public class TimeEdit extends MyDialog {
 
     public TimeEdit(String title, Vector<Item> emp, Vector<Item> work) {
         super();
-        setCenter(450, 300);
+        setCenter(450, 450);
 
         JPanel panel_1 = new JPanel();
         panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));

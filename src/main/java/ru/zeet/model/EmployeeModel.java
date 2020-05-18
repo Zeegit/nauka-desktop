@@ -11,24 +11,46 @@ public class EmployeeModel extends MyModel {
     public EmployeeModel() {
         super();
 
-        setColumnCount(5);
-        setSql("SELECT\n" +
-                "    w.id,\n" +
-                "    work_date,\n" +
-                "    employee_id,\n" +
-                "    work_code_id,\n" +
-                "    e.first_name,\n" +
-                "    e.last_name,\n" +
-                "    c.name as \"work_code_name\"\n" +
-                "from work_calendar w\n" +
-                "join employee e on e.id = w.employee_id\n" +
-                "join work_code c on c.id = w.work_code_id");
+        setColumnCount(12);
+        setSql("SELECT \n" +
+                "    e.id,\n" +
+                "    service_number,\n" +
+                "    first_name,\n" +
+                "    last_name,\n" +
+                "    birth_date,\n" +
+                "    sex,\n" +
+                "    CASE\n" +
+                "        WHEN sex THEN 'м'\n" +
+                "        ELSE 'ж'\n" +
+                "    END AS sex_name,\n" +
+                "    remote,\n" +
+                "    CASE\n" +
+                "        WHEN remote THEN 'да'\n" +
+                "        ELSE 'нет'\n" +
+                "    END AS remote_name,\n" +
+                "    address,\n" +
+                "    photo oid,\n" +
+                "    position_id,\n" +
+                "    department_id,\n" +
+                "    p.name as position_name,\n" +
+                "    d.name as department_name\n" +
+                "from employee e\n" +
+                "join position p on p.id = e.position_id\n" +
+                "join department d on d.id = e.department_id");
 
-        addColumnName("id");
+        addColumnName("Табельный номер");
         addColumnName("Имя");
         addColumnName("Фамилия");
-        addColumnName("Дата");
-        addColumnName("Код");
+        addColumnName("Департамент");
+        addColumnName("Должность");
+        addColumnName("Дата рождения");
+        addColumnName("Пол");
+        addColumnName("Удаленка");
+        addColumnName("Адрес");
+        addColumnName("id");
+        addColumnName("position_id");
+        addColumnName("department_id");
+
     }
 
     @Override
@@ -37,13 +59,18 @@ public class EmployeeModel extends MyModel {
         try {
             while (rs.next()) {
                 String[] row = {
+                        rs.getString("service_number"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
-                        rs.getString("work_date"),
-                        rs.getString("work_code_name"),
+                        rs.getString("department_name"),
+                        rs.getString("position_name"),
+                        rs.getString("birth_date"),
+                        rs.getString("sex_name"),
+                        rs.getString("remote_name"),
+                        rs.getString("address"),
                         rs.getString("id"),
-                        rs.getString("employee_id"),
-                        rs.getString("work_code_id"),
+                        rs.getString("position_id"),
+                        rs.getString("department_id")
                 };
                 addData(row);
             }
